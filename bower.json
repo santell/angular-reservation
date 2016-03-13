@@ -1,0 +1,10 @@
+{
+  "name": "angular-reservation",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "AngularJS module for reservation management",
+  "main": "src/js/app.js",
+  "dependencies": {
+    "angular": ">=1.2.0"
+  }
+}
