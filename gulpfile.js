@@ -14,7 +14,7 @@ var minCssFile = 'angular-reservation.min.css';
 //Generates templates
 gulp.task('templates', function () {
   return gulp.src('src/templates/*.html')
-    .pipe(templateCache(jsFile, {module: 'my.module'}))
+    .pipe(templateCache(jsFile, {module: 'angular.reservation'}))
     .pipe(gulp.dest(dist));
 });
 
