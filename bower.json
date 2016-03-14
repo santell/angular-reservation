@@ -5,6 +5,7 @@
   "description": "AngularJS module for reservation management",
   "main": "src/js/app.js",
   "dependencies": {
-    "angular": ">=1.2.0"
+    "angular": ">=1.2.0",
+    "angular-material": "~1.1.0"
   }
 }
