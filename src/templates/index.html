@@ -1,40 +1,35 @@
-<div>
-	<h1 class="my-class">Welcome!</h1>
-	<h2>Date: {{reservationCtrl.minDate}}</h2>
+<div class="tabs">
+    <md-content>
+        <md-tabs md-border-bottom md-selected="reservationCtrl.selectedTab" md-center-tabs md-swipe-content>
+            <md-tab>
+                <md-tab-label>
+                    <i class="material-icons" style="font-size: 36px">date_range</i>
+                </md-tab-label>
 
-	<div ng-cloak class="tabsdemoDynamicHeight">
-		<md-content>
-			<md-tabs md-border-bottom md-selected="reservationCtrl.selectedTab" md-center-tabs md-swipe-content>
-				<md-tab>
-                    <md-tab-label>
-                        <i class="material-icons" style="font-size: 36px">date_range</i>
-                    </md-tab-label>
+                <md-tab-body>
+                    <md-calendar ng-model="reservationCtrl.selectedDate" ng-change="reservationCtrl.onSelectDate()"></md-calendar>
+                </md-tab-body>
+            </md-tab>
 
-                    <md-tab-body>
-                        View for Item #1
-                    </md-tab-body>
-				</md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <i class="material-icons" style="font-size: 36px">schedule</i>
+                </md-tab-label>
 
-				<md-tab>
-                    <md-tab-label>
-                        <i class="material-icons" style="font-size: 36px">schedule</i>
-                    </md-tab-label>
+                <md-tab-body>
+                    View for Item #2
+                </md-tab-body>
+            </md-tab>
 
-                    <md-tab-body>
-                        View for Item #2
-                    </md-tab-body>
-				</md-tab>
+            <md-tab>
+                <md-tab-label>
+                    <i class="material-icons" style="font-size: 36px">person</i>
+                </md-tab-label>
 
-				<md-tab>
-                    <md-tab-label>
-                        <i class="material-icons" style="font-size: 36px">person</i>
-                    </md-tab-label>
-
-                    <md-tab-body>
-                        View for Item #3
-                    </md-tab-body>
-				</md-tab>
-			</md-tabs>
-		</md-content>
-	</div>
+                <md-tab-body>
+                    View for Item #3
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>

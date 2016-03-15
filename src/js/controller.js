@@ -10,11 +10,15 @@
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
-        vm.date = null;
-        vm.minDate = new Date();
-
         vm.selectedTab = 0;
 
+        vm.selectedDate = new Date();
+
+
+        //METHODS
+        vm.onSelectDate = function() {
+            vm.selectedTab = 1;
+        }
     }
 
 })();
