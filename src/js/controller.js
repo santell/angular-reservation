@@ -20,9 +20,12 @@
 
         vm.userData = {};
 
+        vm.showLoader = false;
+
 
         //METHODS
         vm.onSelectDate = function() {
+            vm.showLoader = true;
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
             getAvailableHours();
@@ -45,6 +48,7 @@
 
             $mdDialog.show(confirm).then(function() {
                 //OK handler
+                vm.showLoader = true;
                 reserve();
             }, function() {
                 //Cancel handler
@@ -62,6 +66,7 @@
             var params = {selectedDate: vm.selectedDate};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
+                vm.showLoader = false;
 
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
@@ -95,6 +100,7 @@
             var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
 
             reservationAPIFactory.reserve(params).then(function () {
+                vm.showLoader = false;
 
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;

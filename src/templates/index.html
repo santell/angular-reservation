@@ -17,7 +17,9 @@
                 </md-tab-label>
 
                 <md-tab-body>
-                    <md-content>
+                    <md-content style="min-height: 60px">
+                        <md-progress-circular ng-show="reservationCtrl.showLoader" md-diameter="50" md-mode="indeterminate"></md-progress-circular>
+
                         <md-list>
                             <md-list-item class="md-1-line" ng-repeat="item in reservationCtrl.availableHours">
                                 <div class="md-list-item-text">
@@ -37,31 +39,35 @@
                 </md-tab-label>
 
                 <md-tab-body>
-                    <form name="reservationCtrl.reserveForm" ng-submit="reservationCtrl.reserveForm.$valid && reservationCtrl.reserve()" novalidate>
-                        <md-content class="md-no-momentum">
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{"name" | translate}}</label>
-                                <md-icon aria-label="person" class="material-icons">person</md-icon>
-                                <input ng-model="reservationCtrl.userData.name" type="text" ng-required="true">
-                            </md-input-container>
+                    <md-content style="min-height: 60px">
+                        <md-progress-circular ng-show="reservationCtrl.showLoader" md-diameter="50" md-mode="indeterminate"></md-progress-circular>
 
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{"phone" | translate}}</label>
-                                <md-icon aria-label="person" class="material-icons">phone</md-icon>
-                                <input ng-model="reservationCtrl.userData.phone" type="text" ng-required="true">
-                            </md-input-container>
+                        <form name="reservationCtrl.reserveForm" ng-show="!reservationCtrl.showLoader" novalidate>
+                            <md-content class="md-no-momentum">
+                                <md-input-container class="md-icon-float md-block">
+                                    <label>{{"name" | translate}}</label>
+                                    <md-icon aria-label="person" class="material-icons">person</md-icon>
+                                    <input ng-model="reservationCtrl.userData.name" type="text" ng-required="true">
+                                </md-input-container>
 
-                            <md-input-container class="md-icon-float md-block">
-                                <label>{{"email" | translate}}</label>
-                                <md-icon aria-label="person" class="material-icons">email</md-icon>
-                                <input ng-model="reservationCtrl.userData.email" type="email" ng-required="true">
-                            </md-input-container>
-                        </md-content>
+                                <md-input-container class="md-icon-float md-block">
+                                    <label>{{"phone" | translate}}</label>
+                                    <md-icon aria-label="person" class="material-icons">phone</md-icon>
+                                    <input ng-model="reservationCtrl.userData.phone" type="text" ng-required="true">
+                                </md-input-container>
 
-                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-                            <md-button type="button" ng-click="reservationCtrl.showConfirm($event)" ng-disabled="!reservationCtrl.reserveForm.$valid" class="md-raised md-primary">{{"reserve" | translate}}</md-button>
-                        </section>
-                    </form>
+                                <md-input-container class="md-icon-float md-block">
+                                    <label>{{"email" | translate}}</label>
+                                    <md-icon aria-label="person" class="material-icons">email</md-icon>
+                                    <input ng-model="reservationCtrl.userData.email" type="email" ng-required="true">
+                                </md-input-container>
+                            </md-content>
+
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+                                <md-button type="button" ng-click="reservationCtrl.showConfirm($event)" ng-disabled="!reservationCtrl.reserveForm.$valid" class="md-raised md-primary">{{"reserve" | translate}}</md-button>
+                            </section>
+                        </form>
+                    </md-content>
                 </md-tab-body>
             </md-tab>
         </md-tabs>
