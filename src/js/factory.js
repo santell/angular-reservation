@@ -3,7 +3,7 @@
  * @author hmartos
  */
 (function() {
-    function reservationAPIFactory($http) {
+    function reservationAPIFactory($http, reservationConfig) {
 
         var reservationAPI = {};
 
@@ -19,7 +19,7 @@
             return $http({
                 method: 'POST',
                 data: params,
-                url: 'http://myAPI/' + 'getAvailableHours',
+                url: reservationConfig.getAvailableHoursAPIUrl,
                 responseType: 'json'
 
             }).then(function(response) {
@@ -38,7 +38,7 @@
             return $http({
                 method: 'POST',
                 data: params,
-                url: 'http://myAPI/' + 'reserve',
+                url: reservationConfig.reserveAPIUrl,
                 responseType: 'json'
 
             }).then(function(response) {
@@ -67,5 +67,5 @@
 
         return reservationAPI;
     }
-    angular.module('angular.reservation').factory('reservationAPIFactory', ['$http', reservationAPIFactory]);
+    angular.module('angular.reservation').factory('reservationAPIFactory', ['$http', 'reservationConfig', reservationAPIFactory]);
 })();
