@@ -14,7 +14,7 @@ var minCssFile = 'angular-reservation.min.css';
 //Generates templates
 gulp.task('templates', function () {
   return gulp.src('src/templates/*.html')
-    .pipe(templateCache(jsFile, {module: 'angular.reservation'}))
+    .pipe(templateCache(jsFile, {module: 'hm.reservation'}))
     .pipe(gulp.dest(dist));
 });
 
@@ -39,6 +39,11 @@ gulp.task('minify-css', function() {
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(concat(minCssFile))
     .pipe(gulp.dest(dist));
+});
+
+//Configure watch to execute build task on source changes
+gulp.task('watch', function() {
+    gulp.watch('src/**', ['build']);
 });
 
 gulp.task('default', ['concat-js', 'concat-uglify-js', 'minify-css']);

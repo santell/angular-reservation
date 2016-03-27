@@ -67,5 +67,5 @@
 
         return reservationAPI;
     }
-    angular.module('angular.reservation').factory('reservationAPIFactory', ['$http', 'reservationConfig', reservationAPIFactory]);
+    angular.module('hm.reservation').factory('reservationAPIFactory', ['$http', 'reservationConfig', reservationAPIFactory]);
 })();

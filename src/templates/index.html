@@ -1,3 +1,86 @@
+<div>
+    <uib-tabset active="reservationCtrl.selectedTab" justified="true" style="border: 2px dotted gainsboro">
+        <uib-tab index="0">
+            <uib-tab-heading>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="font-size: 18px"></span>
+                <h5>{{"date" | translate}}</h5>
+            </uib-tab-heading>
+
+            <uib-datepicker ng-model="reservationCtrl.selectedDate" ng-change="reservationCtrl.onSelectDate()" datepicker-options="reservationCtrl.calendarOptions"></uib-datepicker>
+        </uib-tab>
+
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <span class="glyphicon glyphicon-time" aria-hidden="true" style="font-size: 18px"></span>
+                <h5>{{"time" | translate}}</h5>
+            </uib-tab-heading>
+
+            <div class="list-group">
+                <a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">
+                    {{item}}
+                </a>
+            </div>
+        </uib-tab>
+
+        <uib-tab index="2">
+            <uib-tab-heading>
+                <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 18px"></span>
+                <h5>{{"client" | translate}}</h5>
+            </uib-tab-heading>
+
+            <form class="form-horizontal" name="reservationCtrl.reserveForm" novalidate>
+                <fieldset>
+                    <div class="form-group col-md-12">
+                        <label class="col-md-4 control-label" for="name">{{"name" | translate}}</label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 14px"></span>
+                                </span>
+                                <input id="name" name="name" class="form-control" placeholder="{{'name' | translate}}" type="text" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-md-4 control-label" for="phone">{{"phone" | translate}}</label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-earphone" aria-hidden="true" style="font-size: 14px"></span>
+                                </span>
+                                <input id="phone" name="phone" class="form-control" placeholder="{{'phone' | translate}}" type="text" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="col-md-4 control-label" for="email">{{"email" | translate}}</label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-envelope" aria-hidden="true" style="font-size: 14px"></span>
+                                </span>
+                                <input id="email" name="email" class="form-control" placeholder="{{'email' | translate}}" type="text" required>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button id="reserve" name="reserve" class="btn btn-success">{{"reserve" | translate}}</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </uib-tab>
+    </uib-tabset>
+</div>
+
+<!--
 <div class="tabs">
     <md-content>
         <md-tabs md-selected="reservationCtrl.selectedTab" md-center-tabs md-swipe-content md-dynamic-height md-border-bottom>
@@ -72,4 +155,4 @@
             </md-tab>
         </md-tabs>
     </md-content>
-</div>
+</div>-->

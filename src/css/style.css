@@ -1,20 +1,7 @@
-/* TABS */
-.tabs md-content {
-	background-color: transparent !important;
-}
+/*UI Bootstap fix @see https://angular-ui.github.io/bootstrap/#/getting_started */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-.tabs md-content md-tabs {
-	background: #f6f6f6;
-	border: 1px solid #e1e1e1;
-	min-height: 400px;
-	max-height: 500px !important;
-	max-width: 340px;
-}
-
-.tabs md-content md-tabs md-tabs-wrapper {
-	background: white;
-}
-
-.tabs md-content h1:first-child {
-	margin-top: 0;
+.selected {
+    color: #fff !important;
+    background-color: #5cb85c;
 }

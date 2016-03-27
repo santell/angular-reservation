@@ -4,7 +4,7 @@
  */
 (function() {
     //Directive
-    angular.module('angular.reservation').directive('reservation', ['$document', '$compile', function($document, $compile) {
+    angular.module('hm.reservation').directive('reservation', [function() {
         return {
             restrict: 'E',
             controller: 'ReservationCtrl',

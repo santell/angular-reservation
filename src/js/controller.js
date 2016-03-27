@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('angular.reservation').controller('ReservationCtrl', ['$filter', '$mdDialog', 'reservationAPIFactory', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$filter', 'reservationAPIFactory', reservationCtrl]);
 
-    function reservationCtrl($filter, $mdDialog, reservationAPIFactory) {
+    function reservationCtrl($filter, reservationAPIFactory) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -21,6 +21,12 @@
         vm.userData = {};
 
         vm.showLoader = false;
+
+        //Calendar options
+        vm.calendarOptions = {
+            minDate: new Date(),
+            showWeeks: false
+        };
 
 
         //METHODS
@@ -38,7 +44,7 @@
         }
 
         vm.showConfirm = function(event) {
-            var confirm = $mdDialog.confirm()
+            /*var confirm = $mdDialog.confirm()
                 .title($filter('translate')('confirmTitle'))
                 .textContent($filter('translate')('confirmText', {name: vm.userData.name, selectedDate: $filter('date')(vm.selectedDate, 'dd/MM/yyyy'), selectedHour:vm.selectedHour}))
                 .ariaLabel($filter('translate')('confirmTitle'))
@@ -53,7 +59,7 @@
             }, function() {
                 //Cancel handler
                 console.log("Reservation cancelled");
-            });
+            });*/
         }
 
 

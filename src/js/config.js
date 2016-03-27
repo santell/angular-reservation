@@ -3,7 +3,7 @@
  * @author hmartos
  */
 (function() {
-    angular.module('angular.reservation').provider('reservationConfig', [reservationConfigProvider]);
+    angular.module('hm.reservation').provider('reservationConfig', [reservationConfigProvider]);
 
     function reservationConfigProvider() {
 

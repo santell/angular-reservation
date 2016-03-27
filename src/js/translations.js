@@ -4,8 +4,11 @@
  */
 (function() {
     "use strict";
-    angular.module('angular.reservation').config(['$translateProvider', function($translateProvider) {
+    angular.module('hm.reservation').config(['$translateProvider', function($translateProvider) {
         $translateProvider.translations('es', {
+            date: "Fecha",
+            time: "Hora",
+            client: "Cliente",
             name: "Nombre",
             save: "Guardar",
             cancel: "Cancelar",
@@ -20,6 +23,9 @@
         });
 
         $translateProvider.translations('en', {
+            date: "Date",
+            time: "Time",
+            client: "Client",
             name: "Name",
             save: "Save",
             cancel: "Cancel",
