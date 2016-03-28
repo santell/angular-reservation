@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$filter', 'reservationAPIFactory', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$uibModal', '$filter', 'reservationAPIFactory', reservationCtrl]);
 
-    function reservationCtrl($filter, reservationAPIFactory) {
+    function reservationCtrl($uibModal, $filter, reservationAPIFactory) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -20,18 +20,19 @@
 
         vm.userData = {};
 
-        vm.showLoader = false;
 
-        //Calendar options
+        //TODO Add calendar options as a configurable option
         vm.calendarOptions = {
             minDate: new Date(),
             showWeeks: false
         };
 
+        //TODO Add date format as a configurable option
+        vm.dateFormat = "dd/MM/yyyy";
+
 
         //METHODS
         vm.onSelectDate = function() {
-            vm.showLoader = true;
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
             getAvailableHours();
@@ -43,27 +44,55 @@
             vm.selectedTab = 2;
         }
 
-        vm.showConfirm = function(event) {
-            /*var confirm = $mdDialog.confirm()
-                .title($filter('translate')('confirmTitle'))
-                .textContent($filter('translate')('confirmText', {name: vm.userData.name, selectedDate: $filter('date')(vm.selectedDate, 'dd/MM/yyyy'), selectedHour:vm.selectedHour}))
-                .ariaLabel($filter('translate')('confirmTitle'))
-                .targetEvent(event)
-                .ok($filter('translate')('confirmOK'))
-                .cancel($filter('translate')('confirmCancel'));
-
-            $mdDialog.show(confirm).then(function() {
-                //OK handler
-                vm.showLoader = true;
-                reserve();
-            }, function() {
-                //Cancel handler
-                console.log("Reservation cancelled");
-            });*/
+        vm.showConfirm = function(name) {
+            openConfirmModal(name);
         }
 
 
         //PRIVATE METHODS
+
+        /**
+         * Opens confirmation modal
+         */
+         function openConfirmModal(name) {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'confirmModal.html', //TODO Add as an option in config
+                size: 'sm',
+                controller: ['name', 'selectedDate', 'selectedHour', confirmModalCtrl],
+                controllerAs: 'confirmModalCtrl',
+                resolve: {
+                    name: function () {
+                        return name;
+                    },
+                    selectedDate: function () {
+                        return $filter('date')(vm.selectedDate, vm.dateFormat);
+                    },
+                    selectedHour: function () {
+                        return vm.selectedHour;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                console.log("Accepted");
+
+            }, function () {
+                console.log("Cancelled");
+            })
+        }
+
+        /**
+         * Controller for confirm modal
+         */
+        function confirmModalCtrl(name, selectedDate, selectedHour) {
+            var vm = this;
+
+            vm.translationParams = {
+                name: name,
+                selectedDate: selectedDate,
+                selectedHour: selectedHour
+            }
+        }
 
         /**
          * Get available hours for a selected date
@@ -72,8 +101,6 @@
             var params = {selectedDate: vm.selectedDate};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
-                vm.showLoader = false;
-
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
@@ -106,8 +133,6 @@
             var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
 
             reservationAPIFactory.reserve(params).then(function () {
-                vm.showLoader = false;
-
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
