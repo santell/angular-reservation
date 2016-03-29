@@ -4,7 +4,7 @@
  */
 (function() {
 	//Module definition with dependencies
-	angular.module('hm.reservation', ['ui.bootstrap', 'pascalprecht.translate']);
+	angular.module('hm.reservation', ['ui.bootstrap', 'pascalprecht.translate', 'ngMessages']);
 
 })();
 /**
@@ -79,8 +79,8 @@
             vm.selectedTab = 2;
         }
 
-        vm.showConfirm = function(name) {
-            openConfirmModal(name);
+        vm.showConfirm = function() {
+            openConfirmModal();
         }
 
 
@@ -89,15 +89,15 @@
         /**
          * Opens confirmation modal
          */
-         function openConfirmModal(name) {
+         function openConfirmModal() {
             var modalInstance = $uibModal.open({
                 templateUrl: 'confirmModal.html', //TODO Add as an option in config
                 size: 'sm',
-                controller: ['name', 'selectedDate', 'selectedHour', confirmModalCtrl],
+                controller: ['userData', 'selectedDate', 'selectedHour', confirmModalCtrl],
                 controllerAs: 'confirmModalCtrl',
                 resolve: {
-                    name: function () {
-                        return name;
+                    userData: function () {
+                        return vm.userData;
                     },
                     selectedDate: function () {
                         return $filter('date')(vm.selectedDate, vm.dateFormat);
@@ -110,6 +110,7 @@
 
             modalInstance.result.then(function () {
                 console.log("Accepted");
+                reserve();
 
             }, function () {
                 console.log("Cancelled");
@@ -119,11 +120,16 @@
         /**
          * Controller for confirm modal
          */
-        function confirmModalCtrl(name, selectedDate, selectedHour) {
+        function confirmModalCtrl(userData, selectedDate, selectedHour) {
             var vm = this;
 
+            //TODO Pass this as a configuration option
+            vm.showUserData = true;
+
+            vm.userData = userData;
+
             vm.translationParams = {
-                name: name,
+                name: userData.name,
                 selectedDate: selectedDate,
                 selectedHour: selectedHour
             }
@@ -155,10 +161,10 @@
                 } else if(level == 'CONNECTION_ERROR') {
                     console.log("Connection error");
                 }
-
-                //Hardcoded data
-                vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
             });
+
+            //Hardcoded data
+            vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
         /**
@@ -296,6 +302,10 @@
             select: "Seleccionar",
             phone: "Teléfono",
             email: "Email",
+            required: "Este campo no puede estar vacío",
+            minLength: "El número mínimo de carácteres es {{minLength}}",
+            maxLength: "El número máximo de carácteres es {{maxLength}}",
+            invalidCharacters: "Caracteres no permitidos",
             reserve: "Reservar",
             confirmOK: "Sí, reservar",
             confirmCancel: "No, cancelar",
@@ -313,6 +323,10 @@
             select: "Select",
             phone: "Phone",
             email: "Email",
+            required: "This field is required",
+            minLength: "Minimum length of {{minLength}} is required",
+            maxLength: "Maximum length of {{maxLength}} is required",
+            invalidCharacters: "Not allowed characters",
             reserve: "Reserve",
             confirmOK: "Yes, reserve",
             confirmCancel: "No, cancel",
@@ -334,5 +348,5 @@
 
     }]);
 })();
-angular.module("hm.reservation").run(["$templateCache", function($templateCache) {$templateCache.put("confirmModal.html","<div class=\"modal-header\">\r\n    <h3 class=\"modal-title\">{{\"confirmTitle\" | translate}}</h3>\r\n</div>\r\n<div class=\"modal-body\">\r\n    <h5>{{\"confirmText\" | translate : confirmModalCtrl.translationParams}}</h5>\r\n</div>\r\n<div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" type=\"button\" ng-click=\"$dismiss()\">{{\"confirmCancel\" | translate}}</button>\r\n    <button class=\"btn btn-success\" type=\"button\" ng-click=\"$close()\">{{\"confirmOK\" | translate}}</button>\r\n</div>");
-$templateCache.put("index.html","<div>\r\n    <uib-tabset active=\"reservationCtrl.selectedTab\" justified=\"true\" style=\"border: 2px dotted gainsboro\">\r\n        <uib-tab index=\"0\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-calendar\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5 ng-if=\"reservationCtrl.secondTabLocked\">{{\"date\" | translate}}</h5>\r\n                <h5 ng-if=\"!reservationCtrl.secondTabLocked\">{{reservationCtrl.selectedDate | date: reservationCtrl.dateFormat}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <uib-datepicker ng-model=\"reservationCtrl.selectedDate\" ng-change=\"reservationCtrl.onSelectDate()\" datepicker-options=\"reservationCtrl.calendarOptions\"></uib-datepicker>\r\n        </uib-tab>\r\n\r\n        <uib-tab index=\"1\" disable=\"reservationCtrl.secondTabLocked\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-time\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5 ng-if=\"reservationCtrl.thirdTabLocked\">{{\"time\" | translate}}</h5>\r\n                <h5 ng-if=\"!reservationCtrl.thirdTabLocked\">{{reservationCtrl.selectedHour}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <div class=\"list-group\">\r\n                <a class=\"list-group-item\" href=\"\" ng-repeat=\"item in reservationCtrl.availableHours\" ng-click=\"reservationCtrl.selectHour(item)\" ng-class=\"{\'selected\': reservationCtrl.selectedHour == item}\">\r\n                    {{item}}\r\n                </a>\r\n            </div>\r\n        </uib-tab>\r\n\r\n        <uib-tab index=\"2\" disable=\"reservationCtrl.thirdTabLocked\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5>{{\"client\" | translate}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <!-- TODO Add name model to showConfirm function -->\r\n            <form class=\"form-horizontal\" name=\"reservationCtrl.reserveForm\" ng-submit=\"reservationCtrl.reserveForm.$valid && reservationCtrl.showConfirm(\'Héctor\')\" novalidate>\r\n                <fieldset>\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"name\">{{\"name\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <input id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"{{\'name\' | translate}}\" type=\"text\" required>\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"phone\">{{\"phone\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-earphone\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <input id=\"phone\" name=\"phone\" class=\"form-control\" placeholder=\"{{\'phone\' | translate}}\" type=\"text\" required>\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"email\">{{\"email\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-envelope\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <input id=\"email\" name=\"email\" class=\"form-control\" placeholder=\"{{\'email\' | translate}}\" type=\"text\" required>\r\n                            </div>\r\n\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group\">\r\n                        <div class=\"col-md-12\">\r\n                            <button id=\"reserve\" name=\"reserve\" class=\"btn btn-success\">{{\"reserve\" | translate}}</button>\r\n                        </div>\r\n                    </div>\r\n                </fieldset>\r\n            </form>\r\n        </uib-tab>\r\n    </uib-tabset>\r\n</div>");}]);
+angular.module("hm.reservation").run(["$templateCache", function($templateCache) {$templateCache.put("confirmModal.html","<div class=\"modal-header\">\r\n    <h3 class=\"modal-title\">{{\"confirmTitle\" | translate}}</h3>\r\n</div>\r\n\r\n<div class=\"modal-body\">\r\n    <h5>{{\"confirmText\" | translate : confirmModalCtrl.translationParams}}</h5>\r\n\r\n    <div class=\"col-md-12\" ng-repeat=\"(key, value) in confirmModalCtrl.userData\" ng-if=\"confirmModalCtrl.showUserData\">\r\n        <label class=\"col-md-6 control-label\">{{key | translate}}</label>\r\n\r\n        <h5 class=\"col-md-6\">{{value}}</h5>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" type=\"button\" ng-click=\"$dismiss()\">{{\"confirmCancel\" | translate}}</button>\r\n    <button class=\"btn btn-success\" type=\"button\" ng-click=\"$close()\">{{\"confirmOK\" | translate}}</button>\r\n</div>");
+$templateCache.put("index.html","<div>\r\n    <uib-tabset active=\"reservationCtrl.selectedTab\" justified=\"true\" style=\"border: 2px dotted gainsboro\">\r\n        <uib-tab index=\"0\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-calendar\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5 ng-if=\"reservationCtrl.secondTabLocked\">{{\"date\" | translate}}</h5>\r\n                <h5 ng-if=\"!reservationCtrl.secondTabLocked\">{{reservationCtrl.selectedDate | date: reservationCtrl.dateFormat}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <uib-datepicker ng-model=\"reservationCtrl.selectedDate\" ng-change=\"reservationCtrl.onSelectDate()\" datepicker-options=\"reservationCtrl.calendarOptions\"></uib-datepicker>\r\n        </uib-tab>\r\n\r\n        <uib-tab index=\"1\" disable=\"reservationCtrl.secondTabLocked\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-time\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5 ng-if=\"reservationCtrl.thirdTabLocked\">{{\"time\" | translate}}</h5>\r\n                <h5 ng-if=\"!reservationCtrl.thirdTabLocked\">{{reservationCtrl.selectedHour}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <div class=\"list-group\">\r\n                <a class=\"list-group-item\" href=\"\" ng-repeat=\"item in reservationCtrl.availableHours\" ng-click=\"reservationCtrl.selectHour(item)\" ng-class=\"{\'selected\': reservationCtrl.selectedHour == item}\">\r\n                    {{item}}\r\n                </a>\r\n            </div>\r\n        </uib-tab>\r\n\r\n        <uib-tab index=\"2\" disable=\"reservationCtrl.thirdTabLocked\">\r\n            <uib-tab-heading>\r\n                <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\" style=\"font-size: 18px\"></span>\r\n                <h5>{{\"client\" | translate}}</h5>\r\n            </uib-tab-heading>\r\n\r\n            <!-- TODO Add name model to showConfirm function -->\r\n            <form class=\"form-horizontal\" name=\"reserveForm\" ng-submit=\"reserveForm.$valid && reservationCtrl.showConfirm()\" novalidate>\r\n                <fieldset>\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"name\">{{\"name\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <input id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"{{\'name\' | translate}}\" type=\"text\" ng-model=\"reservationCtrl.userData.name\"\r\n                                       autofocus=\"true\" ng-pattern=\"/^[\\w\\s\\-]*$/\" ng-minlength=\"3\" ng-maxlength=\"100\" required>\r\n                            </div>\r\n\r\n                            <div class=\"help-block\" ng-messages=\"reserveForm.name.$error\" ng-if=\"reserveForm.$submitted\">\r\n                                <p ng-message=\"minlength\" class=\"text-danger\">{{\"minLength\" | translate: \'{minLength: \"3\"}\'}}</p>\r\n                                <p ng-message=\"maxlength\" class=\"text-danger\">{{\"maxLength\" | translate: \'{maxLength: \"100\"}\'}}</p>\r\n                                <p ng-message=\"pattern\" class=\"text-danger\">{{\"invalidCharacters\" | translate}}</p>\r\n                                <p ng-message=\"required\" class=\"text-danger\">{{\"required\" | translate}}</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"phone\">{{\"phone\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-earphone\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <!-- TODO Change pattern, change invalidCharacters by invalidNumber-->\r\n                                <input id=\"phone\" name=\"phone\" class=\"form-control\" placeholder=\"{{\'phone\' | translate}}\" type=\"text\" ng-model=\"reservationCtrl.userData.phone\"\r\n                                       ng-pattern=\"/^[\\w\\s\\-]*$/\" required>\r\n                            </div>\r\n\r\n                            <div class=\"help-block\" ng-messages=\"reserveForm.phone.$error\" ng-if=\"reserveForm.$submitted\">\r\n                                <p ng-message=\"pattern\" class=\"text-danger\">{{\"invalidCharacters\" | translate}}</p>\r\n                                <p ng-message=\"required\" class=\"text-danger\">{{\"required\" | translate}}</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group col-md-12\">\r\n                        <label class=\"col-md-4 control-label\" for=\"email\">{{\"email\" | translate}}</label>\r\n                        <div class=\"col-md-8\">\r\n                            <div class=\"input-group\">\r\n                                <span class=\"input-group-addon\">\r\n                                    <span class=\"glyphicon glyphicon-envelope\" aria-hidden=\"true\" style=\"font-size: 14px\"></span>\r\n                                </span>\r\n                                <!-- TODO Change pattern, change invalidCharacters by invalidEmail-->\r\n                                <input id=\"email\" name=\"email\" class=\"form-control\" placeholder=\"{{\'email\' | translate}}\" type=\"text\" ng-model=\"reservationCtrl.userData.email\"\r\n                                       ng-pattern=\"/^[\\w\\s\\-]*$/\" required>\r\n                            </div>\r\n\r\n                            <div class=\"help-block\" ng-messages=\"reserveForm.email.$error\" ng-if=\"reserveForm.$submitted\">\r\n                                <p ng-message=\"pattern\" class=\"text-danger\">{{\"invalidCharacters\" | translate}}</p>\r\n                                <p ng-message=\"required\" class=\"text-danger\">{{\"required\" | translate}}</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"form-group\">\r\n                        <div class=\"col-md-12\">\r\n                            <button id=\"reserve\" type=\"submit\" name=\"reserve\" class=\"btn btn-success\">{{\"reserve\" | translate}}</button>\r\n                        </div>\r\n                    </div>\r\n                </fieldset>\r\n            </form>\r\n        </uib-tab>\r\n    </uib-tabset>\r\n</div>");}]);

@@ -4,6 +4,6 @@
  */
 (function() {
 	//Module definition with dependencies
-	angular.module('hm.reservation', ['ui.bootstrap', 'pascalprecht.translate']);
+	angular.module('hm.reservation', ['ui.bootstrap', 'pascalprecht.translate', 'ngMessages']);
 
 })();

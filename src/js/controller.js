@@ -44,8 +44,8 @@
             vm.selectedTab = 2;
         }
 
-        vm.showConfirm = function(name) {
-            openConfirmModal(name);
+        vm.showConfirm = function() {
+            openConfirmModal();
         }
 
 
@@ -54,15 +54,15 @@
         /**
          * Opens confirmation modal
          */
-         function openConfirmModal(name) {
+         function openConfirmModal() {
             var modalInstance = $uibModal.open({
                 templateUrl: 'confirmModal.html', //TODO Add as an option in config
                 size: 'sm',
-                controller: ['name', 'selectedDate', 'selectedHour', confirmModalCtrl],
+                controller: ['userData', 'selectedDate', 'selectedHour', confirmModalCtrl],
                 controllerAs: 'confirmModalCtrl',
                 resolve: {
-                    name: function () {
-                        return name;
+                    userData: function () {
+                        return vm.userData;
                     },
                     selectedDate: function () {
                         return $filter('date')(vm.selectedDate, vm.dateFormat);
@@ -75,6 +75,7 @@
 
             modalInstance.result.then(function () {
                 console.log("Accepted");
+                reserve();
 
             }, function () {
                 console.log("Cancelled");
@@ -84,11 +85,16 @@
         /**
          * Controller for confirm modal
          */
-        function confirmModalCtrl(name, selectedDate, selectedHour) {
+        function confirmModalCtrl(userData, selectedDate, selectedHour) {
             var vm = this;
 
+            //TODO Pass this as a configuration option
+            vm.showUserData = true;
+
+            vm.userData = userData;
+
             vm.translationParams = {
-                name: name,
+                name: userData.name,
                 selectedDate: selectedDate,
                 selectedHour: selectedHour
             }
@@ -120,10 +126,10 @@
                 } else if(level == 'CONNECTION_ERROR') {
                     console.log("Connection error");
                 }
-
-                //Hardcoded data
-                vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
             });
+
+            //Hardcoded data
+            vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
         /**
