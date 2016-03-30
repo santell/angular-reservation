@@ -17,7 +17,9 @@
                 <h5 ng-if="!reservationCtrl.thirdTabLocked">{{reservationCtrl.selectedHour}}</h5>
             </uib-tab-heading>
 
-            <div class="list-group">
+            <div ng-include="'loader.html'" style="text-align: center" ng-if="reservationCtrl.loader"></div>
+
+            <div class="list-group" ng-if="!reservationCtrl.loader">
                 <a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">
                     {{item}}
                 </a>
@@ -30,9 +32,10 @@
                 <h5>{{"client" | translate}}</h5>
             </uib-tab-heading>
 
-            <!-- TODO Add name model to showConfirm function -->
             <form class="form-horizontal" name="reserveForm" ng-submit="reserveForm.$valid && reservationCtrl.showConfirm()" novalidate>
-                <fieldset>
+                <div ng-include="'loader.html'" style="text-align: center" ng-if="reservationCtrl.loader"></div>
+
+                <fieldset ng-if="!reservationCtrl.loader">
                     <div class="form-group col-md-12">
                         <label class="col-md-4 control-label" for="name">{{"name" | translate}}</label>
                         <div class="col-md-8">
@@ -97,6 +100,9 @@
                         </div>
                     </div>
                 </fieldset>
+
+                <uib-alert type="success" ng-if="reservationCtrl.reservationState == 'SUCCESS'">Success!</uib-alert>
+                <uib-alert type="danger" ng-if="reservationCtrl.reservationState == 'ERROR'">Error!</uib-alert>
             </form>
         </uib-tab>
     </uib-tabset>

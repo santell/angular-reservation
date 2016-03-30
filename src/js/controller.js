@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$uibModal', '$filter', 'reservationAPIFactory', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$uibModal', '$filter', 'reservationAPIFactory', 'reservationConfig', reservationCtrl]);
 
-    function reservationCtrl($uibModal, $filter, reservationAPIFactory) {
+    function reservationCtrl($scope, $uibModal, $filter, reservationAPIFactory, reservationConfig) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -20,6 +20,9 @@
 
         vm.userData = {};
 
+        vm.loader = false;
+
+        vm.dateFormat = reservationConfig.dateFormat;
 
         //TODO Add calendar options as a configurable option
         vm.calendarOptions = {
@@ -27,15 +30,13 @@
             showWeeks: false
         };
 
-        //TODO Add date format as a configurable option
-        vm.dateFormat = "dd/MM/yyyy";
-
 
         //METHODS
         vm.onSelectDate = function() {
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
             getAvailableHours();
+            vm.loader = true;
         }
 
         vm.selectHour = function(hour) {
@@ -107,6 +108,8 @@
             var params = {selectedDate: vm.selectedDate};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
+                vm.loader = false;
+
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
@@ -132,33 +135,60 @@
             vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
+        //TODO Callbacks in directive??
         /**
          * Do reserve POST with selectedDate, selectedHour and userData as parameters of the call
          */
         function reserve() {
+            vm.loader = true;
+
             var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
 
             reservationAPIFactory.reserve(params).then(function () {
+                vm.loader = false;
+
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
                 //Success call without error
                 if (level == 'SUCCESS') {
                     console.log("Success");
+                    //TODO Success callback
+                    //successCallback();
 
                     //Success call with error
                 } else if(level == 'ERROR') {
                     console.log("Error");
+                    //TODO Error callback
+                    //errorCallback
 
                     //Internal server error
                 } else if(level == 'SERVER_ERROR') {
                     console.log("Internal server error");
+                    //TODO Server error callback??
 
                     //Connection error
                 } else if(level == 'CONNECTION_ERROR') {
                     console.log("Connection error");
+                    //TODO Connection error callback??
                 }
+
+                //alert(JSON.stringify($scope.successCallback()));
+                $scope.successCallback();
+                //Hardcoded callbacks
+                //successCallback();
+                //errorCallback();
             });
+        }
+
+        //TODO Move to parent app
+        function successCallback() {
+            vm.reservationState = "SUCCESS";
+        }
+
+        //TODO Move to parent app
+        function errorCallback() {
+            vm.reservationState = "ERROR"
         }
     }
 
