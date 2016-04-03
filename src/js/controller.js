@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$uibModal', '$filter', 'reservationAPIFactory', 'reservationConfig', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$uibModal', '$filter', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
 
-    function reservationCtrl($scope, $uibModal, $filter, reservationAPIFactory, reservationConfig) {
+    function reservationCtrl($scope, $uibModal, $filter, reservationAPIFactory, reservationConfig, reservationService) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -135,7 +135,6 @@
             vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
-        //TODO Callbacks in directive??
         /**
          * Do reserve POST with selectedDate, selectedHour and userData as parameters of the call
          */
@@ -150,45 +149,21 @@
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
-                //Success call without error
+                //Success
                 if (level == 'SUCCESS') {
                     console.log("Success");
-                    //TODO Success callback
-                    //successCallback();
+                    reservationService.onSuccessfulReserve(vm.selectedDate, vm.selectedHour, vm.userData);
 
-                    //Success call with error
-                } else if(level == 'ERROR') {
+                //Error
+                } else {
                     console.log("Error");
-                    //TODO Error callback
-                    //errorCallback
-
-                    //Internal server error
-                } else if(level == 'SERVER_ERROR') {
-                    console.log("Internal server error");
-                    //TODO Server error callback??
-
-                    //Connection error
-                } else if(level == 'CONNECTION_ERROR') {
-                    console.log("Connection error");
-                    //TODO Connection error callback??
+                    reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
                 }
 
-                //alert(JSON.stringify($scope.successCallback()));
-                $scope.successCallback();
                 //Hardcoded callbacks
-                //successCallback();
-                //errorCallback();
+                //reservationService.onSuccessfulReserve(vm.selectedDate, vm.selectedHour, vm.userData);
+                //reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
             });
-        }
-
-        //TODO Move to parent app
-        function successCallback() {
-            vm.reservationState = "SUCCESS";
-        }
-
-        //TODO Move to parent app
-        function errorCallback() {
-            vm.reservationState = "ERROR"
         }
     }
 
