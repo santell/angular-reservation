@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$uibModal', '$filter', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
 
-    function reservationCtrl($scope, $uibModal, $filter, reservationAPIFactory, reservationConfig, reservationService) {
+    function reservationCtrl(reservationAPIFactory, reservationConfig, reservationService) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -45,61 +45,12 @@
             vm.selectedTab = 2;
         }
 
-        vm.showConfirm = function() {
-            openConfirmModal();
+        vm.reserve = function() {
+            reserve();
         }
 
 
         //PRIVATE METHODS
-
-        /**
-         * Opens confirmation modal
-         */
-         function openConfirmModal() {
-            var modalInstance = $uibModal.open({
-                templateUrl: 'confirmModal.html', //TODO Add as an option in config
-                size: 'sm',
-                controller: ['userData', 'selectedDate', 'selectedHour', confirmModalCtrl],
-                controllerAs: 'confirmModalCtrl',
-                resolve: {
-                    userData: function () {
-                        return vm.userData;
-                    },
-                    selectedDate: function () {
-                        return $filter('date')(vm.selectedDate, vm.dateFormat);
-                    },
-                    selectedHour: function () {
-                        return vm.selectedHour;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function () {
-                console.log("Accepted");
-                reserve();
-
-            }, function () {
-                console.log("Cancelled");
-            })
-        }
-
-        /**
-         * Controller for confirm modal
-         */
-        function confirmModalCtrl(userData, selectedDate, selectedHour) {
-            var vm = this;
-
-            //TODO Pass this as a configuration option
-            vm.showUserData = true;
-
-            vm.userData = userData;
-
-            vm.translationParams = {
-                name: userData.name,
-                selectedDate: selectedDate,
-                selectedHour: selectedHour
-            }
-        }
 
         /**
          * Get available hours for a selected date
@@ -139,6 +90,8 @@
          * Do reserve POST with selectedDate, selectedHour and userData as parameters of the call
          */
         function reserve() {
+            reservationService.onBeforeReserve(vm.selectedDate, vm.selectedHour, vm.userData);
+
             vm.loader = true;
 
             var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
@@ -149,15 +102,20 @@
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
+                //Completed reserve callback
+                reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
+
                 //Success
                 if (level == 'SUCCESS') {
                     console.log("Success");
+                    //Successful reserve calback
                     reservationService.onSuccessfulReserve(vm.selectedDate, vm.selectedHour, vm.userData);
 
                 //Error
                 } else {
                     console.log("Error");
-                    reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
+                    //Error reserve callback
+                    reservationService.onErrorReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
                 }
 
                 //Hardcoded callbacks
