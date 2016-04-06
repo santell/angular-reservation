@@ -5,6 +5,26 @@
 (function() {
     function reservationService() {
 
+        //Before get available hours callback
+        this.onBeforeGetAvailableHours = function(selectedDate) {
+            console.log("Executing before get available hours callback");
+        }
+
+        //Completed get available hours callback
+        this.onCompletedGetAvailableHours = function(statusLevel, message, selectedDate) {
+            console.log("Executing completed get available hours callback");
+        }
+
+        //Success get available hours callback
+        this.onSuccessfulGetAvailableHours = function(selectedDate) {
+            console.log("Executing successful get available hours callback");
+        }
+
+        //Error get available hours callback
+        this.onErrorGetAvailableHours = function(statusLevel, message, selectedDate) {
+            console.log("Executing error get available hours callback");
+        }
+
         //Before reserve callback
         this.onBeforeReserve = function(selectedDate, selectedHour, userData) {
             console.log("Executing before reserve callback");

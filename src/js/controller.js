@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$translate', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
 
-    function reservationCtrl(reservationAPIFactory, reservationConfig, reservationService) {
+    function reservationCtrl($translate, reservationAPIFactory, reservationConfig, reservationService) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -29,6 +29,8 @@
             minDate: new Date(),
             showWeeks: false
         };
+
+        $translate.use(reservationConfig.language);
 
 
         //METHODS
@@ -56,6 +58,8 @@
          * Get available hours for a selected date
          */
         function getAvailableHours() {
+            reservationService.onBeforeGetAvailableHours(vm.selectedDate);
+
             var params = {selectedDate: vm.selectedDate};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
@@ -64,21 +68,20 @@
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
-                //Success call without error
+                //Completed get available hours callback
+                reservationService.onCompletedGetAvailableHours(level, message, vm.selectedDate);
+
+                //Success
                 if (level == 'SUCCESS') {
                     console.log("Success");
+                    //Successful get available hours calback
+                    reservationService.onSuccessfulGetAvailableHours(vm.selectedDate);
 
-                    //Success call with error
-                } else if(level == 'ERROR') {
+                //Error
+                } else {
                     console.log("Error");
-
-                    //Internal server error
-                } else if(level == 'SERVER_ERROR') {
-                    console.log("Internal server error");
-
-                    //Connection error
-                } else if(level == 'CONNECTION_ERROR') {
-                    console.log("Connection error");
+                    //Error get available hours callback
+                    reservationService.onErrorGetAvailableHours(level, message, vm.selectedDate);
                 }
             });
 
