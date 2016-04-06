@@ -4,9 +4,9 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$translate', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$translate', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
 
-    function reservationCtrl($translate, reservationAPIFactory, reservationConfig, reservationService) {
+    function reservationCtrl($scope, $translate, reservationAPIFactory, reservationConfig, reservationService) {
         //Capture the this context of the Controller using vm, standing for procedureModel
         var vm = this;
 
@@ -24,11 +24,7 @@
 
         vm.dateFormat = reservationConfig.dateFormat;
 
-        //TODO Add calendar options as a configurable option
-        vm.calendarOptions = {
-            minDate: new Date(),
-            showWeeks: false
-        };
+        vm.datepickerOptions = $scope.datepickerOptions;
 
         $translate.use(reservationConfig.language);
 
