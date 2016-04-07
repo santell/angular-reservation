@@ -11,7 +11,8 @@
             getAvailableHoursAPIUrl: "http://localhost:8080/API/getAvailableHours", //API url endpoint to load list of available hours
             reserveAPIUrl: "http://localhost:8080/API/reserve", //API url endpoint to do a reserve
             dateFormat: "dd/MM/yyyy",
-            language: "en"
+            language: "en",
+            clientFormTemplate: "clientForm.html"
         };
 
         //Public API for the provider

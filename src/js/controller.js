@@ -24,6 +24,8 @@
 
         vm.dateFormat = reservationConfig.dateFormat;
 
+        vm.clientForm = reservationConfig.clientFormTemplate;
+
         vm.datepickerOptions = $scope.datepickerOptions;
 
         $translate.use(reservationConfig.language);
