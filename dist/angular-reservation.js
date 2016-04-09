@@ -73,7 +73,7 @@
         vm.onSelectDate = function() {
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
-            getAvailableHours();
+            onBeforeGetAvailableHours();
             vm.loader = true;
         }
 
@@ -84,18 +84,28 @@
         }
 
         vm.reserve = function() {
-            reserve();
+            onBeforeReserve();
         }
 
 
         //PRIVATE METHODS
 
         /**
+         *
+         */
+        function onBeforeGetAvailableHours() {
+            reservationService.onBeforeGetAvailableHours(vm.selectedDate).then(function () {
+                getAvailableHours();
+
+            }, function() {
+                console.log("onBeforeGetAvailableHours: Rejected promise");
+            });
+        }
+
+        /**
          * Get available hours for a selected date
          */
         function getAvailableHours() {
-            reservationService.onBeforeGetAvailableHours(vm.selectedDate);
-
             var params = {selectedDate: vm.selectedDate};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
@@ -126,11 +136,21 @@
         }
 
         /**
+         *
+         */
+        function onBeforeReserve() {
+            reservationService.onBeforeReserve(vm.selectedDate, vm.selectedHour, vm.userData).then(function () {
+                reserve();
+
+            }, function() {
+                console.log("onBeforeReserve: Rejected promise");
+            });
+        }
+
+        /**
          * Do reserve POST with selectedDate, selectedHour and userData as parameters of the call
          */
         function reserve() {
-            reservationService.onBeforeReserve(vm.selectedDate, vm.selectedHour, vm.userData);
-
             vm.loader = true;
 
             var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
@@ -260,11 +280,17 @@
  * @author hmartos
  */
 (function() {
-    function reservationService() {
+    function reservationService($q) {
 
         //Before get available hours callback
-        this.onBeforeGetAvailableHours = function(selectedDate) {
+        this.onBeforeGetAvailableHours = function(selectedDate, selectedHour, userData) {
             console.log("Executing before get available hours callback");
+            var deferred = $q.defer();
+
+            deferred.resolve();
+            //deferred.reject();
+
+            return deferred.promise;
         }
 
         //Completed get available hours callback
@@ -285,7 +311,14 @@
         //Before reserve callback
         this.onBeforeReserve = function(selectedDate, selectedHour, userData) {
             console.log("Executing before reserve callback");
+            var deferred = $q.defer();
+
+            deferred.resolve();
+            //deferred.reject();
+
+            return deferred.promise;
         }
+
 
         //Completed reserve callback
         this.onCompletedReserve = function(statusLevel, message, selectedDate, selectedHour, userData) {
@@ -303,7 +336,7 @@
         }
 
     }
-    angular.module('hm.reservation').service('reservationService', [reservationService]);
+    angular.module('hm.reservation').service('reservationService', ['$q', reservationService]);
 })();
 /**
  * Internationalization file with translations

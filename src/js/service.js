@@ -3,11 +3,17 @@
  * @author hmartos
  */
 (function() {
-    function reservationService() {
+    function reservationService($q) {
 
         //Before get available hours callback
-        this.onBeforeGetAvailableHours = function(selectedDate) {
+        this.onBeforeGetAvailableHours = function(selectedDate, selectedHour, userData) {
             console.log("Executing before get available hours callback");
+            var deferred = $q.defer();
+
+            deferred.resolve();
+            //deferred.reject();
+
+            return deferred.promise;
         }
 
         //Completed get available hours callback
@@ -28,7 +34,14 @@
         //Before reserve callback
         this.onBeforeReserve = function(selectedDate, selectedHour, userData) {
             console.log("Executing before reserve callback");
+            var deferred = $q.defer();
+
+            deferred.resolve();
+            //deferred.reject();
+
+            return deferred.promise;
         }
+
 
         //Completed reserve callback
         this.onCompletedReserve = function(statusLevel, message, selectedDate, selectedHour, userData) {
@@ -46,5 +59,5 @@
         }
 
     }
-    angular.module('hm.reservation').service('reservationService', [reservationService]);
+    angular.module('hm.reservation').service('reservationService', ['$q', reservationService]);
 })();
