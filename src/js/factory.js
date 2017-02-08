@@ -27,6 +27,7 @@
                 console.log(response.data);
                 reservationAPI.level = response.data.level;
                 reservationAPI.message = response.data.message;
+                reservationAPI.availableHours = response.data.availableHours;
 
             }, function(response) {
                 reservationAPI.errorManagement(response.status);

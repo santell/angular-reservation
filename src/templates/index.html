@@ -7,7 +7,7 @@
                 <h5 ng-if="!reservationCtrl.secondTabLocked">{{reservationCtrl.selectedDate | date: reservationCtrl.dateFormat}}</h5>
             </uib-tab-heading>
 
-            <uib-datepicker ng-model="reservationCtrl.selectedDate" ng-change="reservationCtrl.onSelectDate()" datepicker-options="reservationCtrl.datepickerOptions"></uib-datepicker>
+            <uib-datepicker class="datepicker" ng-model="reservationCtrl.selectedDate" ng-change="reservationCtrl.onSelectDate()" datepicker-options="reservationCtrl.datepickerOptions"></uib-datepicker>
         </uib-tab>
 
         <uib-tab index="1" disable="reservationCtrl.secondTabLocked">

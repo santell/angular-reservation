@@ -76,25 +76,29 @@
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
+                //TODO Hector 08/02/2017 Add available hours to callback
                 //Completed get available hours callback
                 reservationService.onCompletedGetAvailableHours(level, message, vm.selectedDate);
 
                 //Success
                 if (level == 'SUCCESS') {
                     console.log("Success");
+                    vm.availableHours = reservationAPIFactory.availableHours;
+                    //TODO Hector 08/02/2017 Add available hours to callback
                     //Successful get available hours calback
                     reservationService.onSuccessfulGetAvailableHours(vm.selectedDate);
 
                 //Error
                 } else {
                     console.log("Error");
+                    //TODO Hector 08/02/2017 Add available hours to callback
                     //Error get available hours callback
                     reservationService.onErrorGetAvailableHours(level, message, vm.selectedDate);
                 }
             });
 
             //Hardcoded data
-            vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
+            //vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
         /**

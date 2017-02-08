@@ -5,3 +5,8 @@
     color: #fff !important;
     background-color: #5cb85c;
 }
+
+.datepicker {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
