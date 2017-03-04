@@ -53,7 +53,7 @@
         //PRIVATE METHODS
 
         /**
-         *
+         * Function executed before get available hours function.
          */
         function onBeforeGetAvailableHours() {
             reservationService.onBeforeGetAvailableHours(vm.selectedDate).then(function () {
@@ -76,33 +76,25 @@
                 var level = reservationAPIFactory.level;
                 var message = reservationAPIFactory.message;
 
-                //TODO Hector 08/02/2017 Add available hours to callback
                 //Completed get available hours callback
                 reservationService.onCompletedGetAvailableHours(level, message, vm.selectedDate);
 
                 //Success
                 if (level == 'SUCCESS') {
-                    console.log("Success");
                     vm.availableHours = reservationAPIFactory.availableHours;
-                    //TODO Hector 08/02/2017 Add available hours to callback
-                    //Successful get available hours calback
-                    reservationService.onSuccessfulGetAvailableHours(vm.selectedDate);
+                    //Successful get available hours callback
+                    reservationService.onSuccessfulGetAvailableHours(level, message, vm.selectedDate, vm.availableHours);
 
                 //Error
                 } else {
-                    console.log("Error");
-                    //TODO Hector 08/02/2017 Add available hours to callback
                     //Error get available hours callback
                     reservationService.onErrorGetAvailableHours(level, message, vm.selectedDate);
                 }
             });
-
-            //Hardcoded data
-            //vm.availableHours = ["10:00", "10.30", "11.30", "12.30", "13.00", "17.00", "17.30", "18.00", "18.30", "19.00"];
         }
 
         /**
-         *
+         * Function executed before reserve function
          */
         function onBeforeReserve() {
             reservationService.onBeforeReserve(vm.selectedDate, vm.selectedHour, vm.userData).then(function () {
@@ -132,20 +124,14 @@
 
                 //Success
                 if (level == 'SUCCESS') {
-                    console.log("Success");
                     //Successful reserve calback
-                    reservationService.onSuccessfulReserve(vm.selectedDate, vm.selectedHour, vm.userData);
+                    reservationService.onSuccessfulReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
 
                 //Error
                 } else {
-                    console.log("Error");
                     //Error reserve callback
                     reservationService.onErrorReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
                 }
-
-                //Hardcoded callbacks
-                //reservationService.onSuccessfulReserve(vm.selectedDate, vm.selectedHour, vm.userData);
-                //reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);
             });
         }
     }

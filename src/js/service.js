@@ -6,7 +6,7 @@
     function reservationService($q) {
 
         //Before get available hours callback
-        this.onBeforeGetAvailableHours = function(selectedDate, selectedHour, userData) {
+        this.onBeforeGetAvailableHours = function(selectedDate) {
             console.log("Executing before get available hours callback");
             var deferred = $q.defer();
 
@@ -22,7 +22,7 @@
         }
 
         //Success get available hours callback
-        this.onSuccessfulGetAvailableHours = function(selectedDate) {
+        this.onSuccessfulGetAvailableHours = function(statusLevel, message, selectedDate, availableHours) {
             console.log("Executing successful get available hours callback");
         }
 
@@ -36,6 +36,7 @@
             console.log("Executing before reserve callback");
             var deferred = $q.defer();
 
+            //TODO If showConfirmationModal == true then openConfirmationModal, else deferred.resolve()
             deferred.resolve();
             //deferred.reject();
 
@@ -49,7 +50,7 @@
         }
 
         //Success reserve callback
-        this.onSuccessfulReserve = function(reservedDate, reservedHour, userData) {
+        this.onSuccessfulReserve = function(level, message, reservedDate, reservedHour, userData) {
             console.log("Executing successful reserve callback");
         }
 
