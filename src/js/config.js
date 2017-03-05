@@ -12,7 +12,9 @@
             reserveAPIUrl: "http://localhost:8080/API/reserve", //API url endpoint to do a reserve
             dateFormat: "dd/MM/yyyy",
             language: "en",
-            clientFormTemplate: "clientForm.html"
+            showConfirmationModal: true,
+            clientFormTemplate: "clientForm.html",
+            confirmationModalTemplate: "confirmationModal.html"
         };
 
         //Public API for the provider

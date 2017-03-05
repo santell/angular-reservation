@@ -3,7 +3,7 @@
  * @author hmartos
  */
 (function() {
-    function reservationService($q) {
+    function reservationService($q, $filter, $uibModal, reservationConfig) {
 
         //Before get available hours callback
         this.onBeforeGetAvailableHours = function(selectedDate) {
@@ -36,9 +36,13 @@
             console.log("Executing before reserve callback");
             var deferred = $q.defer();
 
-            //TODO If showConfirmationModal == true then openConfirmationModal, else deferred.resolve()
-            deferred.resolve();
-            //deferred.reject();
+            if(reservationConfig.showConfirmationModal) {
+                openConfirmationModal(deferred, selectedDate, selectedHour, userData);
+
+            } else {
+                deferred.resolve();
+                //deferred.reject();
+            }
 
             return deferred.promise;
         }
@@ -59,6 +63,55 @@
             console.log("Executing error reserve callback");
         }
 
+        /**
+         * Opens confirmation modal
+         */
+        function openConfirmationModal(deferred, selectedDate, selectedHour, userData) {
+            var modalInstance = $uibModal.open({
+                templateUrl: reservationConfig.confirmationModalTemplate, //TODO Add as an option in config
+                size: 'sm',
+                controller: ['selectedDate', 'selectedHour', 'userData', confirmationModalCtrl],
+                controllerAs: 'confirmationModalCtrl',
+                resolve: {
+                    selectedDate: function () {
+                        return $filter('date')(selectedDate, reservationConfig.dateFormat);
+                    },
+                    selectedHour: function () {
+                        return selectedHour;
+                    },
+                    userData: function () {
+                        return userData;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                console.log("Accepted");
+                deferred.resolve();
+
+            }, function () {
+                console.log("Cancelled");
+                deferred.reject();
+            })
+        }
+
+        /**
+         * Controller for confirmation modal
+         */
+        function confirmationModalCtrl(selectedDate, selectedHour, userData) {
+            var vm = this;
+
+            vm.selectedDate = selectedDate;
+            vm.selectedHour = selectedHour;
+            vm.userData = userData;
+
+            vm.translationParams = {
+                name: userData.name,
+                selectedDate: selectedDate,
+                selectedHour: selectedHour
+            }
+        }
+
     }
-    angular.module('hm.reservation').service('reservationService', ['$q', reservationService]);
+    angular.module('hm.reservation').service('reservationService', ['$q', '$filter', '$uibModal', 'reservationConfig', reservationService]);
 })();

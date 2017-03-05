@@ -3,12 +3,12 @@
 </div>
 
 <div class="modal-body">
-    <h5>{{"confirmText" | translate : confirmModalCtrl.translationParams}}</h5>
+    <h5>{{"confirmText" | translate : confirmationModalCtrl.translationParams}}</h5>
 
-    <div class="col-md-12" ng-repeat="(key, value) in confirmModalCtrl.userData" ng-if="confirmModalCtrl.showUserData">
-        <label class="col-md-6 control-label">{{key | translate}}</label>
+    <div ng-repeat="(key, value) in confirmationModalCtrl.userData track by $index">
+        <label class="control-label">{{key | translate}}</label>
 
-        <h5 class="col-md-6">{{value}}</h5>
+        <h5>{{value}}</h5>
     </div>
 </div>
 
