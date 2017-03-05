@@ -19,11 +19,15 @@
 
             <div ng-include="'loader.html'" style="text-align: center" ng-if="reservationCtrl.loader"></div>
 
-            <div class="list-group" ng-if="!reservationCtrl.loader">
+            <div class="list-group" ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length > 0">
                 <a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">
                     {{item}}
                 </a>
             </div>
+
+            <span ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length == 0">
+                {{"noAvailableHours" | translate}}
+            </span>
         </uib-tab>
 
         <uib-tab index="2" disable="reservationCtrl.thirdTabLocked">
