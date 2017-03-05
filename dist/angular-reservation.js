@@ -338,7 +338,7 @@
          */
         function openConfirmationModal(deferred, selectedDate, selectedHour, userData) {
             var modalInstance = $uibModal.open({
-                templateUrl: reservationConfig.confirmationModalTemplate, //TODO Add as an option in config
+                templateUrl: reservationConfig.confirmationModalTemplate,
                 size: 'sm',
                 controller: ['selectedDate', 'selectedHour', 'userData', confirmationModalCtrl],
                 controllerAs: 'confirmationModalCtrl',
