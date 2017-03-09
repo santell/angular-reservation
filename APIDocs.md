@@ -20,7 +20,7 @@ REST API SPECIFICATION
   _Returns an array with available hours for selected date, a SUCCESS level and a message. <br/> You can use level to return a 200 code response with an error and an optional message to explain what has happened._
   * **Code:** 200 <br />
     **Content:** 
-```
+``` !json
 {
 	"availableHours": [
 	  "10:00",
@@ -40,7 +40,7 @@ REST API SPECIFICATION
 ```
 	
 * **Sample Call:**
-```
+``` !shell
 curl --request GET \
   --url 'http://localhost:8080/api/availableHours?selectedDate=2017-03-22T00%3A00%3A00.000Z' \
   --header 'cache-control: no-cache' \
@@ -62,7 +62,7 @@ curl --request GET \
   
 * **Data Params**
 _Include selected date, selected data and user data._
-```
+``` !json
 {
 	"selectedDate": "2017-03-25T00:00:00.000Z",
 	"selectedHour": "10:00",
@@ -79,7 +79,7 @@ _Include selected date, selected data and user data._
   
   * **Code:** 200 <br />
     **Content:** 
-```
+``` !json
 {
   "level": "SUCCESS",
   "message": ""
@@ -87,7 +87,7 @@ _Include selected date, selected data and user data._
 ```
 	
 * **Sample Call:**
-```
+``` !shell
 	curl --request GET \
 	curl --request POST \
 	  --url http://localhost:8080/api/reserve \
