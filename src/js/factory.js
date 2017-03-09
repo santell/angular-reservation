@@ -17,8 +17,8 @@
         //Call to get list of available hours
         reservationAPI.getAvailableHours = function(params) {
             return $http({
-                method: 'POST', //TODO Should be a GET
-                data: params,
+                method: 'GET',
+                params: params,
                 url: reservationConfig.getAvailableHoursAPIUrl,
                 responseType: 'json'
 

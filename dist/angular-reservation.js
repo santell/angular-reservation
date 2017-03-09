@@ -17,7 +17,7 @@
     function reservationConfigProvider() {
 
         var config = {
-            getAvailableHoursAPIUrl: "http://localhost:8080/API/getAvailableHours", //API url endpoint to load list of available hours
+            getAvailableHoursAPIUrl: "http://localhost:8080/API/availableHours", //API url endpoint to load list of available hours
             reserveAPIUrl: "http://localhost:8080/API/reserve", //API url endpoint to do a reserve
             dateFormat: "dd/MM/yyyy",
             language: "en",
@@ -215,8 +215,8 @@
         //Call to get list of available hours
         reservationAPI.getAvailableHours = function(params) {
             return $http({
-                method: 'POST', //TODO Should be a GET
-                data: params,
+                method: 'GET',
+                params: params,
                 url: reservationConfig.getAvailableHoursAPIUrl,
                 responseType: 'json'
 
