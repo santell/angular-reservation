@@ -14,7 +14,9 @@
         vm.secondTabLocked = true;
         vm.thirdTabLocked = true;
 
-        vm.selectedDate = new Date();
+        var today = new Date();
+        today.setHours(0,0,0,0); //Date at start of today
+        vm.selectedDate = today;
 
         vm.selectedHour = "";
 
