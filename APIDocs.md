@@ -96,3 +96,5 @@ _Include selected date, selected data and user data._
 	  --header 'postman-token: 5068a8dc-c266-df52-f532-343f6da88da3' \
 	  --data '{"selectedDate": "2017-03-22T00:00:00.000Z", "selectedHour": "10:00", "userData": {"name": "Héctor", "phone": "676310552", "email": "hectormartosg"}}'
 ```
+
+It is available the Postman collection export [here](./angular-reservation-postman.json)
