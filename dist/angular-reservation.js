@@ -19,7 +19,7 @@
         var config = {
             getAvailableHoursAPIUrl: "http://localhost:8080/API/availableHours", //API url endpoint to load list of available hours
             reserveAPIUrl: "http://localhost:8080/API/reserve", //API url endpoint to do a reserve
-            dateFormat: "dd/MM/yyyy",
+            dateFormat: "yyyy-MM-dd",
             language: "en",
             showConfirmationModal: true,
             clientFormTemplate: "clientForm.html",
