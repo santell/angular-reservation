@@ -2,6 +2,10 @@
     <label class="col-md-4 control-label" for="name">{{"name" | translate}}</label>
     <div class="col-md-8">
         <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 14px"></span>
+            </span>
+
             <input id="name" name="name" class="form-control" placeholder="{{'name' | translate}}" type="text" ng-model="reservationCtrl.userData.name"
                    autofocus="true" ng-pattern="/^[\w\s\-\x7f-\xff]*$/" ng-minlength="2" ng-maxlength="100" required>
         </div>
@@ -19,6 +23,10 @@
     <label class="col-md-4 control-label" for="phone">{{"phone" | translate}}</label>
     <div class="col-md-8">
         <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-earphone" aria-hidden="true" style="font-size: 14px"></span>
+            </span>
+
             <input id="phone" name="phone" class="form-control" placeholder="{{'phone' | translate}}" type="tel" ng-model="reservationCtrl.userData.phone"
                    ng-pattern="/^[0-9]*$/" ng-minlength="5" ng-maxlength="15" required>
         </div>
@@ -36,6 +44,10 @@
     <label class="col-md-4 control-label" for="email">{{"email" | translate}}</label>
     <div class="col-md-8">
         <div class="input-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true" style="font-size: 14px"></span>
+            </span>
+
             <input id="email" name="email" class="form-control" placeholder="{{'email' | translate}}" type="text" ng-model="reservationCtrl.userData.email"
                    ng-pattern="/[\w|.|-]*@\w*\.[\w|.]*/" required>
         </div>
