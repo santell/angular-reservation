@@ -1,13 +1,24 @@
 {
   "name": "angular-reservation",
-  "version": "0.0.1",
-  "license": "MIT",
-  "description": "AngularJS module for reservation management",
+  "description": "AngularJS module for time reservation management. It can be use to reserve a citation in a restaurant, barber shop, or any kind of service provided in time buckets, ",
   "main": "src/js/app.js",
   "dependencies": {
     "angular": ">=1.3.0",
     "angular-messages": ">=1.3.0",
-    "angular-translate": "~2.7.0",
-    "angular-bootstrap": "~1.3.0"
-  }
+    "angular-translate": ">=2.0.0",
+    "angular-bootstrap": ">=1.2.0"
+  },
+  "keywords": [
+    "reservation",
+    "booking",
+    "citation"
+  ],
+  "authors": [
+    "Héctor Martos <hectormartosg@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ]
 }
