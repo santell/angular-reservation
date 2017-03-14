@@ -44,10 +44,10 @@
  */
 (function () {
     //Controller
-    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$translate', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
+    angular.module('hm.reservation').controller('ReservationCtrl', ['$scope', '$filter', '$translate', 'reservationAPIFactory', 'reservationConfig', 'reservationService', reservationCtrl]);
 
-    function reservationCtrl($scope, $translate, reservationAPIFactory, reservationConfig, reservationService) {
-        //Capture the this context of the Controller using vm, standing for procedureModel
+    function reservationCtrl($scope, $filter, $translate, reservationAPIFactory, reservationConfig, reservationService) {
+        //Capture the this context of the Controller using vm, standing for viewModel
         var vm = this;
 
         vm.selectedTab = 0;
@@ -75,6 +75,7 @@
 
         //METHODS
         vm.onSelectDate = function() {
+            vm.selectedDate = $filter('date')(vm.selectedDate, vm.dateFormat);
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
             onBeforeGetAvailableHours();
