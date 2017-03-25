@@ -7,6 +7,17 @@
 }
 
 .datepicker {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    width: 252px;
+    margin: auto;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.availableHour {
+    margin: 2em;
+}
+
+.clientForm {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
