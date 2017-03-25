@@ -26,7 +26,10 @@
 
         vm.dateFormat = reservationConfig.dateFormat;
 
-        vm.clientForm = reservationConfig.clientFormTemplate;
+        vm.datepickerTemplate = reservationConfig.datepickerTemplate;
+        vm.availableHoursTemplate = reservationConfig.availableHoursTemplate;
+        vm.noAvailableHoursTemplate = reservationConfig.noAvailableHoursTemplate;
+        vm.clientFormTemplate = reservationConfig.clientFormTemplate;
 
         vm.datepickerOptions = $scope.datepickerOptions;
 

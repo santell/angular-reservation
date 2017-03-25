@@ -1,49 +1,44 @@
-<div>
-    <uib-tabset active="reservationCtrl.selectedTab" justified="true" style="border: 2px dotted gainsboro">
+<div class="box">
+    <uib-tabset active="reservationCtrl.selectedTab" justified="true">
         <uib-tab index="0">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true" style="font-size: 18px"></span>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true" class="icon-size"></span>
                 <h5 ng-if="reservationCtrl.secondTabLocked">{{"date" | translate}}</h5>
                 <h5 ng-if="!reservationCtrl.secondTabLocked">{{reservationCtrl.selectedDate | date: reservationCtrl.dateFormat}}</h5>
             </uib-tab-heading>
 
-            <div uib-datepicker class="datepicker" ng-model="reservationCtrl.selectedDate" ng-change="reservationCtrl.onSelectDate()" datepicker-options="reservationCtrl.datepickerOptions"></div>
+            <div ng-include="reservationCtrl.datepickerTemplate"></div>
         </uib-tab>
 
         <uib-tab index="1" disable="reservationCtrl.secondTabLocked">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-time" aria-hidden="true" style="font-size: 18px"></span>
+                <span class="glyphicon glyphicon-time" aria-hidden="true" class="icon-size"></span>
                 <h5 ng-if="reservationCtrl.thirdTabLocked">{{"time" | translate}}</h5>
                 <h5 ng-if="!reservationCtrl.thirdTabLocked">{{reservationCtrl.selectedHour}}</h5>
             </uib-tab-heading>
 
-            <div ng-include="'loader.html'" style="text-align: center" ng-if="reservationCtrl.loader"></div>
+            <div ng-include="'loader.html'" class="text-center" ng-if="reservationCtrl.loader"></div>
 
-            <div class="list-group availableHour" ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length > 0">
-                <a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">
-                    {{item}}
-                </a>
-                <!--<div class="col-md-3 availableHour" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">-->
-                    <!--<span>{{item}}</span>-->
-                <!--</div>-->
+            <div class="availableHour" ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length > 0">
+                <div ng-include="reservationCtrl.availableHoursTemplate"></div>
             </div>
 
-            <span ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length == 0">
-                {{"noAvailableHours" | translate}}
-            </span>
+            <div ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length == 0">
+                <div ng-include="reservationCtrl.noAvailableHoursTemplate"></div>
+            </div>
         </uib-tab>
 
         <uib-tab index="2" disable="reservationCtrl.thirdTabLocked">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 18px"></span>
+                <span class="glyphicon glyphicon-user" aria-hidden="true" class="icon-size"></span>
                 <h5>{{"client" | translate}}</h5>
             </uib-tab-heading>
 
             <form class="form-horizontal" name="reserveForm" ng-submit="reserveForm.$valid && reservationCtrl.reserve()" novalidate>
-                <div ng-include="'loader.html'" style="text-align: center" ng-if="reservationCtrl.loader"></div>
+                <div ng-include="'loader.html'" class="text-center" ng-if="reservationCtrl.loader"></div>
 
                 <fieldset ng-if="!reservationCtrl.loader">
-                    <div ng-include="reservationCtrl.clientForm"></div>
+                    <div ng-include="reservationCtrl.clientFormTemplate"></div>
                 </fieldset>
 
                 <uib-alert type="success" ng-if="reservationCtrl.reservationState == 'SUCCESS'">Success!</uib-alert>

@@ -13,6 +13,9 @@
             dateFormat: "yyyy-MM-dd",
             language: "en",
             showConfirmationModal: true,
+            datepickerTemplate: "datepicker.html",
+            availableHoursTemplate: "availableHours.html",
+            noAvailableHoursTemplate: "noAvailableHours.html",
             clientFormTemplate: "clientForm.html",
             confirmationModalTemplate: "confirmationModal.html"
         };
