@@ -14,6 +14,11 @@
     background-color: #5cb85c;
 }
 
+.selected:hover {
+    color: #fff !important;
+    background-color: #5cb85c !important;
+}
+
 .datepicker {
     width: 252px;
     margin: auto;
