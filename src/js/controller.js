@@ -122,8 +122,8 @@
             reservationAPIFactory.reserve(params).then(function () {
                 vm.loader = false;
 
-                var level = reservationAPIFactory.level;
-                var message = reservationAPIFactory.message;
+                var level = vm.reservationState = reservationAPIFactory.level;
+                var message = vm.reservationMessage = reservationAPIFactory.message;
 
                 //Completed reserve callback
                 reservationService.onCompletedReserve(level, message, vm.selectedDate, vm.selectedHour, vm.userData);

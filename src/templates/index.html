@@ -40,9 +40,6 @@
                 <fieldset ng-if="!reservationCtrl.loader">
                     <div ng-include="reservationCtrl.clientFormTemplate"></div>
                 </fieldset>
-
-                <uib-alert type="success" ng-if="reservationCtrl.reservationState == 'SUCCESS'">Success!</uib-alert>
-                <uib-alert type="danger" ng-if="reservationCtrl.reservationState == 'ERROR'">Error!</uib-alert>
             </form>
         </uib-tab>
     </uib-tabset>
