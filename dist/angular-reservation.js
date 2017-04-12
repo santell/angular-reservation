@@ -81,7 +81,6 @@
 
         //METHODS
         vm.onSelectDate = function() {
-            vm.selectedDate = $filter('date')(vm.selectedDate, vm.dateFormat);
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
             onBeforeGetAvailableHours();
@@ -117,7 +116,8 @@
          * Get available hours for a selected date
          */
         function getAvailableHours() {
-            var params = {selectedDate: vm.selectedDate};
+            var selectedDateFormatted = $filter('date')(vm.selectedDate, vm.dateFormat);
+            var params = {selectedDate: selectedDateFormatted};
 
             reservationAPIFactory.getAvailableHours(params).then(function () {
                 vm.loader = false;
@@ -160,7 +160,8 @@
         function reserve() {
             vm.loader = true;
 
-            var params = {selectedDate: vm.selectedDate, selectedHour: vm.selectedHour, userData: vm.userData};
+            var selectedDateFormatted = $filter('date')(vm.selectedDate, vm.dateFormat);
+            var params = {selectedDate: selectedDateFormatted, selectedHour: vm.selectedHour, userData: vm.userData};
 
             reservationAPIFactory.reserve(params).then(function () {
                 vm.loader = false;
