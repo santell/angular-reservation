@@ -8,8 +8,10 @@
         var reservationAPI = {};
 
         // Error details
-        reservationAPI.level = "";
+        reservationAPI.status = "";
         reservationAPI.message = "";
+
+        reservationAPI.availableHours = "";
 
 
         //METHODS
@@ -25,7 +27,9 @@
             }).then(function(response) {
                 //Success handler
                 console.log(response.data);
-                reservationAPI.level = response.data.level;
+                validateAvailableHoursResponseData(response.data);
+
+                reservationAPI.status = response.data.status;
                 reservationAPI.message = response.data.message;
                 reservationAPI.availableHours = response.data.availableHours;
 
@@ -45,7 +49,8 @@
             }).then(function(response) {
                 //Success handler
                 console.log(response.data);
-                reservationAPI.level = response.data.level;
+                validateReserveResponseData(response.data);
+                reservationAPI.status = response.data.status;
                 reservationAPI.message = response.data.message;
 
             }, function(response) {
@@ -56,15 +61,37 @@
 
         //Error management function, handles different kind of status codes
         reservationAPI.errorManagement = function(status) {
+            resetVariables();
             switch (status) {
                 case 500: //Server error
-                    reservationAPI.level = "SERVER_ERROR";
+                    reservationAPI.status = "SERVER_ERROR";
                     break;
                 default: //Other error, typically connection error
-                    reservationAPI.level = "CONNECTION_ERROR";
+                    reservationAPI.status = "CONNECTION_ERROR";
                     break;
             }
         }
+
+        //Reset factory variables when an error occurred
+        function resetVariables() {
+            reservationAPI.status = "";
+            reservationAPI.message = "";
+            reservationAPI.availableHours = "";
+        }
+
+        //Validate if available hours response has expected keys
+        function validateAvailableHoursResponseData(data) {
+            if(!data.hasOwnProperty('status')) console.error("Get available hours response should have a 'status' key");
+            if(!data.hasOwnProperty('message')) console.error("Get available hours response should have a 'message' key");
+            if(!data.hasOwnProperty('availableHours')) console.error("Get available hours response should have a 'availableHours' key");
+        }
+
+        //Validate if reserve response has expected keys
+        function validateReserveResponseData(data) {
+            if(!data.hasOwnProperty('status')) console.error("Reserve response should have a 'status' key");
+            if(!data.hasOwnProperty('message')) console.error("Reserve response should have a 'message' key");
+        }
+
 
         return reservationAPI;
     }

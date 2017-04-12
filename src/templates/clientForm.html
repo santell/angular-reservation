@@ -65,12 +65,12 @@
     </div>
 
     <div class="col-md-12">
-        <div uib-alert class="alert-success text-center" ng-if="reservationCtrl.reservationState == 'SUCCESS'" style="margin-top: 1em">
+        <div uib-alert class="alert-success text-center" ng-if="reservationCtrl.reservationStatus == 'SUCCESS'" style="margin-top: 1em">
             <span>Success!</span>
             <p ng-if="reservationCtrl.reservationMessage">{{reservationCtrl.reservationMessage}}</p>
         </div>
 
-        <div uib-alert class="alertt-danger text-center" ng-if="reservationCtrl.reservationState == 'ERROR'" style="margin-top: 1em">
+        <div uib-alert class="alertt-danger text-center" ng-if="reservationCtrl.reservationStatus == 'ERROR'" style="margin-top: 1em">
             <span>Error!</span>
             <p ng-if="reservationCtrl.reservationMessage">{{reservationCtrl.reservationMessage}}</p>
         </div>

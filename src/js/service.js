@@ -17,17 +17,17 @@
         }
 
         //Completed get available hours callback
-        this.onCompletedGetAvailableHours = function(statusLevel, message, selectedDate) {
+        this.onCompletedGetAvailableHours = function(status, message, selectedDate) {
             console.log("Executing completed get available hours callback");
         }
 
         //Success get available hours callback
-        this.onSuccessfulGetAvailableHours = function(statusLevel, message, selectedDate, availableHours) {
+        this.onSuccessfulGetAvailableHours = function(status, message, selectedDate, availableHours) {
             console.log("Executing successful get available hours callback");
         }
 
         //Error get available hours callback
-        this.onErrorGetAvailableHours = function(statusLevel, message, selectedDate) {
+        this.onErrorGetAvailableHours = function(status, message, selectedDate) {
             console.log("Executing error get available hours callback");
         }
 
@@ -49,17 +49,17 @@
 
 
         //Completed reserve callback
-        this.onCompletedReserve = function(statusLevel, message, selectedDate, selectedHour, userData) {
+        this.onCompletedReserve = function(status, message, selectedDate, selectedHour, userData) {
             console.log("Executing completed reserve callback");
         }
 
         //Success reserve callback
-        this.onSuccessfulReserve = function(level, message, reservedDate, reservedHour, userData) {
+        this.onSuccessfulReserve = function(status, message, reservedDate, reservedHour, userData) {
             console.log("Executing successful reserve callback");
         }
 
         //Error reserve callback
-        this.onErrorReserve = function(level, message, selectedDate, selectedHour, userData) {
+        this.onErrorReserve = function(status, message, selectedDate, selectedHour, userData) {
             console.log("Executing error reserve callback");
         }
 
