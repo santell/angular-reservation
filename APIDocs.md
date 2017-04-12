@@ -54,7 +54,7 @@ REST API SPECIFICATION
 _Include selected date, selected data and user data._
 ```json
 {
-	"selectedDate": "2017-03-25T00:00:00.000Z",
+	"selectedDate": "2017-03-25",
 	"selectedHour": "10:00",
 	"userData": {
 		"name": "Héctor",
