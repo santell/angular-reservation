@@ -17,7 +17,7 @@ REST API SPECIFICATION
   `selectedDate=[string]`
 
 * **Success Response:**
-  _Returns an array with available hours for selected date, a SUCCESS level and a message. <br/> You can use level to return a 200 code response with an error and an optional message to explain what has happened._
+  _Returns an array with available hours for selected date, a SUCCESS status and a message. <br/> You can use status to return a 200 code response with an error and an optional message to explain what has happened._
   * **Code:** 200 <br />
     **Content:** 
 ```json
@@ -34,19 +34,9 @@ REST API SPECIFICATION
 	  "18.30",
 	  "19.00"
 	],
-	"level": "SUCCESS",
+	"status": "SUCCESS",
 	"message": ""
 }
-```
-	
-* **Sample Call:**
-```shell
-curl --request GET \
-  --url 'http://localhost:8080/api/availableHours?selectedDate=2017-03-22T00%3A00%3A00.000Z' \
-  --header 'cache-control: no-cache' \
-  --header 'content-type: application/json' \
-  --header 'postman-token: d09f589d-d563-f893-c7c3-e814e4a7b2d4' \
-  --data '{"selectedDate": "06/03/2016"}'
 ```
 
 
@@ -75,26 +65,16 @@ _Include selected date, selected data and user data._
 ```
 
 * **Success Response:**
-  _Returns  a SUCCESS level and a message. <br/> You can use level to return a 200 code response with an error and an optional message to explain what has happened._
+  _Returns a SUCCESS status and a message. <br/> You can use status to return a 200 code response with an error and an optional message to explain what has happened._
   
   * **Code:** 200 <br />
     **Content:** 
 ```json
 {
-  "level": "SUCCESS",
+  "status": "SUCCESS",
   "message": ""
 }
 ```
-	
-* **Sample Call:**
-```shell
-	curl --request GET \
-	curl --request POST \
-	  --url http://localhost:8080/api/reserve \
-	  --header 'cache-control: no-cache' \
-	  --header 'content-type: application/json' \
-	  --header 'postman-token: 5068a8dc-c266-df52-f532-343f6da88da3' \
-	  --data '{"selectedDate": "2017-03-22T00:00:00.000Z", "selectedHour": "10:00", "userData": {"name": "Héctor", "phone": "676310552", "email": "hectormartosg"}}'
-```
 
-It is available the Postman collection export [here](./angular-reservation-postman.json)
+
+It is available the Postman collection export [here](./angular-reservation.postman_collection.json)
