@@ -75,6 +75,3 @@ _Include selected date, selected data and user data._
   "message": ""
 }
 ```
-
-
-It is available the Postman collection export [here](./angular-reservation.postman_collection.json)
