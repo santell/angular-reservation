@@ -20,43 +20,41 @@ describe('angular-reservation controller', function () {
     describe('ReservationCtrl', function () {
         var scope;
         var controller;
-        var serviceMock;
         var service;
-        var factoryMock;
         var factory;
         var config;
-        var $q;
 
         beforeEach(inject(function ($rootScope, $controller, $filter, $translate, _reservationAPIFactory_, _reservationConfig_, _reservationService_) {
             scope = $rootScope.$new();
 
-            //TODO Mock service
-            factoryMock = {
-                getAvailableHours: function (params) {}
-            };
-
-            serviceMock = {
-                onBeforeGetAvailableHours: function (selectedDate) {}
-            };
-
+           //As this is an integration test, here we should inject services and not mocks
             service = _reservationService_;
             factory = _reservationAPIFactory_;
 
-            controller = $controller('ReservationCtrl', {$scope: scope, $filter: $filter, $translate: $translate, reservationAPIFactory: factory, reservationConfig: _reservationConfig_, reservationService: service});
-        }));
+            config = {
+                getAvailableHoursAPIUrl: "http://localhost:8080/api/availableHours", //API url endpoint to load list of available hours
+                reserveAPIUrl: "http://localhost:8080/api/reserve", //API url endpoint to do a reserve
+                dateFormat: "yyyy-MM-dd",
+                language: "en",
+                showConfirmationModal: true,
+                datepickerTemplate: "datepicker.html",
+                availableHoursTemplate: "availableHours.html",
+                noAvailableHoursTemplate: "noAvailableHours.html",
+                clientFormTemplate: "clientForm.html",
+                confirmationModalTemplate: "confirmationModal.html"
+            }
 
-        it('Is defined', inject(function () {
-            //Checks that controller is defined
-            expect(controller).toBeDefined();
+            //_reservationConfig_.set(config);
+
+            controller = $controller('ReservationCtrl', {$scope: scope, $filter: $filter, $translate: $translate, reservationAPIFactory: _reservationAPIFactory_, reservationConfig: config, reservationService: _reservationService_});
         }));
 
         describe('Date selection logic', function () {
 
-            beforeEach(inject(function ($rootScope, $q) {
-                var deferred = $q.defer();
-                spyOn(service, 'onBeforeGetAvailableHours').and.returnValue($q.when()).and.callThrough();
+            beforeEach(inject(function ($rootScope, reservationService, reservationAPIFactory) {
+                spyOn(reservationService, 'onBeforeGetAvailableHours').and.callThrough();
 
-                spyOn(factory, 'getAvailableHours').and.returnValue(deferred.promise);//.and.callThrough();
+                spyOn(reservationAPIFactory, 'getAvailableHours').and.callThrough();
 
                 /*spyOn(viewIncidentService, 'listIncidentTypeProcedure').and.returnValue({
                     then: function (callbackSuccess, callbackError) {
@@ -74,6 +72,7 @@ describe('angular-reservation controller', function () {
             }));
 
             it('Selected date a valid Date object', inject(function () {
+
                 expect(controller.selectedDate instanceof Date).toBeTruthy();
             }));
 
@@ -86,27 +85,42 @@ describe('angular-reservation controller', function () {
                 expect(controller.selectedTab).toBe(1);
             }));
 
-            it('onBeforeAvailableHours service method is called', inject(function () {
-                expect(service.onBeforeGetAvailableHours).toHaveBeenCalled();
+            it('onBeforeAvailableHours service method is called', inject(function (reservationService) {
+                expect(reservationService.onBeforeGetAvailableHours).toHaveBeenCalled();
                 //TODO See toHaveBeenCalledWith()
             }));
 
             it('Loader is shown until promise is resolved or rejected an hidden when promised is resolved or rejected', inject(function ($rootScope, $q) {
-                expect(controller.loader).toBeTruthy();
-
-                var deferred = $q.defer();
-                deferred.resolve();
-                $rootScope.$digest();
-
-                expect(controller.loader).toBeTruthy();
+                //expect(controller.loader).toBeTruthy();
+                //TODO Implement
             }));
 
-            it('getAvailableHours factory method is called', inject(function ($rootScope, $q) {
+            it('getAvailableHours factory method is called', inject(function (reservationConfig, reservationAPIFactory, $rootScope, $q) {
+                //TODO Why do I have to do this??
                 var deferred = $q.defer();
                 deferred.resolve();
                 $rootScope.$digest();
-                expect(factory.getAvailableHours).toHaveBeenCalled();
+                console.log("Selected date: " + controller.selectedDate);
+                console.log("availableHoursStatus: " + controller.availableHoursStatus);
+                console.log("reservationConfig", reservationConfig);
+                expect(reservationAPIFactory.getAvailableHours).toHaveBeenCalled();
+                expect(controller.availableHoursStatus).toBeDefined();
                 //TODO Pass parameters
+            }));
+
+            it('Request status is defined', inject(function ($rootScope, $q) {
+                //expect(controller.availableHoursStatus).toBeDefined();
+                //TODO Implemment
+            }));
+
+            it('spec', inject(function ($rootScope, $q) {
+                //expect(controller.loader).toBeTruthy();
+                //TODO Implemment
+            }));
+
+            it('spec', inject(function ($rootScope, $q) {
+                //expect(controller.loader).toBeTruthy();
+                //TODO Implemment
             }));
         });
 
