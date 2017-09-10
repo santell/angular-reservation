@@ -31,8 +31,20 @@ describe('angular-reservation controller', function () {
             service = _reservationService_;
 
             //Mock factory to avoid dealing with API's errors
-            factoryMock = {status: "SUCCESS", message: "a message", availableHours: ["10:00", "11:00"]};
+            factoryMock = {};
             factoryMock.getAvailableHours = function () {
+                factoryMock.status = "SUCCESS";
+                factoryMock.message = "a message";
+                factoryMock.availableHours = ["10:00", "11:00"];
+
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
+            }
+            factoryMock.reserve = function () {
+                factoryMock.status = "SUCCESS";
+                factoryMock.message = "other message";
+
                 var deferred = $q.defer();
                 deferred.resolve();
                 return deferred.promise;
@@ -76,6 +88,8 @@ describe('angular-reservation controller', function () {
 
             beforeEach(inject(function ($rootScope, $q, reservationService, reservationAPIFactory) {
                 spyOn(reservationService, 'onBeforeGetAvailableHours').and.callThrough();
+                spyOn(reservationService, 'onCompletedGetAvailableHours').and.callThrough();
+                spyOn(reservationService, 'onSuccessfulGetAvailableHours').and.callThrough();
 
                 /*spyOn(viewIncidentService, 'listIncidentTypeProcedure').and.returnValue({
                  then: function (callbackSuccess, callbackError) {
@@ -110,10 +124,13 @@ describe('angular-reservation controller', function () {
                 //TODO Implement
             }));
 
-            it('getAvailableHours factory method is called and response is mapped correctly', inject(function (reservationConfig, reservationAPIFactory, $rootScope) {
-                //TODO Why do I have to do this??
+            it('getAvailableHours factory method is called and response is mapped successfully', inject(function (reservationConfig, reservationAPIFactory, reservationService, $rootScope) {
                 $rootScope.$digest(); //MUST HAVE call for promise in onBeforeGetAvailableHours to run
-                console.log("reservationConfig", reservationConfig.getAvailableHoursAPIUrl);
+                //console.log("reservationConfig", reservationConfig.getAvailableHoursAPIUrl);
+                expect(reservationService.onCompletedGetAvailableHours).toHaveBeenCalled();
+                //TODO See toHaveBeenCalledWith()
+                expect(reservationService.onSuccessfulGetAvailableHours).toHaveBeenCalled();
+                //TODO See toHaveBeenCalledWith()
                 expect(controller.availableHoursStatus).toBe("SUCCESS");
                 expect(controller.availableHoursMessage).toBe("a message");
                 expect(controller.availableHours).toEqual(["10:00", "11:00"]);
@@ -143,7 +160,13 @@ describe('angular-reservation controller', function () {
         describe('Reserve logic', function () {
 
             beforeEach(inject(function (reservationService) {
-                spyOn(reservationService, 'onBeforeReserve').and.callThrough();
+                spyOn(reservationService, 'onBeforeReserve').and.returnValue({
+                    then: function (callbackSuccess, callbackError) {
+                        callbackSuccess();
+                    }
+                });
+                spyOn(reservationService, 'onCompletedReserve').and.callThrough();
+                spyOn(reservationService, 'onSuccessfulReserve').and.callThrough();
 
                 //Call selectHour function
                 controller.reserve();
@@ -151,6 +174,17 @@ describe('angular-reservation controller', function () {
 
             it('onBeforeReserve service method is called', inject(function (reservationService) {
                 expect(reservationService.onBeforeReserve).toHaveBeenCalled();
+                //TODO See toHaveBeenCalledWith()
+            }));
+
+            it('reserve factory method is called and response is mapped successfully', inject(function ($rootScope, reservationService) {
+                $rootScope.$digest(); //MUST HAVE call for promise in onBeforeGetAvailableHours to run
+                expect(reservationService.onCompletedReserve).toHaveBeenCalled();
+                //TODO See toHaveBeenCalledWith()
+                expect(reservationService.onSuccessfulReserve).toHaveBeenCalled();
+                //TODO See toHaveBeenCalledWith()
+                expect(controller.reservationStatus).toBe("SUCCESS");
+                expect(controller.reservationMessage).toBe("other message");
             }));
 
         });
