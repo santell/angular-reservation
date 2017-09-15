@@ -129,7 +129,7 @@ describe('angular-reservation integration test', function () {
                 controller.onSelectDate();
             }));
 
-            it('Selected date is a valid Date object and is correct date (today)', inject(function () {
+            it('Select date correctly and elected date is a valid Date object', inject(function () {
                 expect(controller.selectedDate instanceof Date).toBeTruthy();
                 expect(controller.selectedDate).toEqual(selectedDate);
             }));
