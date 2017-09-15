@@ -23,11 +23,7 @@
   "scripts": {
     "pretest": "npm install",
     "test": "karma start karma.conf.js",
-    "test-single-run": "karma start karma.conf.js --single-run",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update",
-    "pree2e-test": "npm run update-webdriver",
-    "e2e-test": "protractor e2e-tests/protractor.conf.js"
+    "test-single-run": "karma start karma.conf.js --single-run"
   },
   "keywords": [
     "reservation",
