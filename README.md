@@ -15,6 +15,9 @@ of service provided in time slots.
 
 ## How to use it in your existing project
 
+### Install module with bower
+Execute `bower install --save angular-reservation`
+
 ### Load scripts
 Load AngularJS, dependencies script files and the script file angular-reservation.min.js in your index.html.
 
@@ -82,3 +85,14 @@ To build the module just use the following command:
 There is also a watch task to watch for any change on sources files and automatically generate dist files. Just use the following command:
 
 `gulp watch`
+
+## Running tests
+
+angular-reservation has in`tegration tests that allows developer to check if new features breaks functionality.
+You can run tests on a single run or watch for source code to change and execute tests each time source code changes.
+``
+##### Single run test
+Execute `npm run test-single-run`
+
+##### Watch for source code and execute tests each time source code changes
+Execute `npm run test`
