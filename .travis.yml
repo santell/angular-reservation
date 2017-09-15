@@ -3,8 +3,6 @@ node_js:
   - 'stable'
 
 before_script:
-  - npm start
-  - npm run update-webdriver
   - sleep 1 # give server time to start
 
 script:
