@@ -34,7 +34,8 @@
                 <h5>{{"client" | translate}}</h5>
             </uib-tab-heading>
 
-            <form class="form-horizontal" name="reserveForm" ng-submit="reserveForm.$valid && reservationCtrl.reserve()" novalidate>
+            <form class="form-horizontal" name="reserveForm" novalidate
+                  ng-submit="reserveForm.$valid && reservationCtrl.reserve(reservationCtrl.selectedDate, reservationCtrl.selectedHour, reservationCtrl.userData)">
                 <div ng-include="'loader.html'" class="text-center" ng-if="reservationCtrl.loader"></div>
 
                 <fieldset ng-if="!reservationCtrl.loader">

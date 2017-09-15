@@ -122,11 +122,8 @@ describe('angular-reservation integration test', function () {
                     }
                 });
 
-                //Set selected date in controller, see TODOs in reservationCtrl
-                controller.selectedDate = selectedDate;
-
                 //Call onSelectDate function
-                controller.onSelectDate();
+                controller.onSelectDate(selectedDate);
             }));
 
             it('Select date correctly and elected date is a valid Date object', inject(function () {
@@ -197,13 +194,11 @@ describe('angular-reservation integration test', function () {
                 });
 
                 //Call onSelectDate function
-                controller.onSelectDate();
+                controller.onSelectDate(selectedDate);
 
                 //Call selectHour function
                 controller.selectHour(selectedHour);
 
-                //Set userData in controller, see TODOs in reservationCtrl
-                controller.userData = userData;
 
                 spyOn(reservationService, 'onBeforeReserve').and.returnValue({
                     then: function (callbackSuccess, callbackError) {
@@ -213,8 +208,8 @@ describe('angular-reservation integration test', function () {
                 spyOn(reservationService, 'onCompletedReserve').and.callThrough();
                 spyOn(reservationService, 'onSuccessfulReserve').and.callThrough();
 
-                //Call selectHour function
-                controller.reserve();
+                //Call reserve function
+                controller.reserve(selectedDate, selectedHour, userData);
             }));
 
             it('onBeforeReserve service method is called', inject(function (reservationService) {
