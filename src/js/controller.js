@@ -37,6 +37,7 @@
 
 
         //METHODS
+        // TODO This function should have all needed parameters in order to test it better
         vm.onSelectDate = function() {
             vm.secondTabLocked = false;
             vm.selectedTab = 1;
@@ -114,6 +115,7 @@
         /**
          * Do reserve POST with selectedDate, selectedHour and userData as parameters of the call
          */
+        // TODO This function should have all needed parameters in order to test it better
         function reserve() {
             vm.loader = true;
 
