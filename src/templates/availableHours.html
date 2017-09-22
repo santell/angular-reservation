@@ -1,3 +1,4 @@
-<a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)" ng-class="{'selected': reservationCtrl.selectedHour == item}">
+<a class="list-group-item" href="" ng-repeat="item in reservationCtrl.availableHours" ng-click="reservationCtrl.selectHour(item)"
+   ng-class="{'angular-reservation-selected': reservationCtrl.selectedHour == item}">
     <span>{{item}}</span>
 </a>

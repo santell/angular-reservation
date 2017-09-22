@@ -1,8 +1,8 @@
-<div class="box">
+<div class="angular-reservation-box">
     <uib-tabset active="reservationCtrl.selectedTab" justified="true">
         <uib-tab index="0">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-calendar" aria-hidden="true" class="icon-size"></span>
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true" class="angular-reservation-icon-size"></span>
                 <h5 ng-if="reservationCtrl.secondTabLocked">{{"date" | translate}}</h5>
                 <h5 ng-if="!reservationCtrl.secondTabLocked">{{reservationCtrl.selectedDate | date: reservationCtrl.dateFormat}}</h5>
             </uib-tab-heading>
@@ -12,14 +12,14 @@
 
         <uib-tab index="1" disable="reservationCtrl.secondTabLocked">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-time" aria-hidden="true" class="icon-size"></span>
+                <span class="glyphicon glyphicon-time" aria-hidden="true" class="angular-reservation-icon-size"></span>
                 <h5 ng-if="reservationCtrl.thirdTabLocked">{{"time" | translate}}</h5>
                 <h5 ng-if="!reservationCtrl.thirdTabLocked">{{reservationCtrl.selectedHour}}</h5>
             </uib-tab-heading>
 
             <div ng-include="'loader.html'" class="text-center" ng-if="reservationCtrl.loader"></div>
 
-            <div class="availableHour" ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length > 0">
+            <div class="angular-reservation-availableHour" ng-if="!reservationCtrl.loader && reservationCtrl.availableHours.length > 0">
                 <div ng-include="reservationCtrl.availableHoursTemplate"></div>
             </div>
 
@@ -30,7 +30,7 @@
 
         <uib-tab index="2" disable="reservationCtrl.thirdTabLocked">
             <uib-tab-heading>
-                <span class="glyphicon glyphicon-user" aria-hidden="true" class="icon-size"></span>
+                <span class="glyphicon glyphicon-user" aria-hidden="true" class="angular-reservation-icon-size"></span>
                 <h5>{{"client" | translate}}</h5>
             </uib-tab-heading>
 

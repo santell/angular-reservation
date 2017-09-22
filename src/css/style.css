@@ -1,42 +1,42 @@
 /*UI Bootstap fix @see https://angular-ui.github.io/bootstrap/#/getting_started */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-.box {
+.angular-reservation-box {
     border: 2px solid gainsboro;
 }
 
-.icon-size {
+.angular-reservation-icon-size {
     font-size: 18px;
 }
 
-.selected {
+.angular-reservation-selected {
     color: #fff !important;
     background-color: #5cb85c;
 }
 
-.selected:hover {
+.angular-reservation-selected:hover {
     color: #fff !important;
     background-color: #5cb85c !important;
 }
 
-.datepicker {
+.angular-reservation-datepicker {
     width: 252px;
     margin: auto;
     margin-top: 2em;
     margin-bottom: 2em;
 }
 
-.availableHour {
+.angular-reservation-availableHour {
     margin: 2em;
 }
 
-.noAvailableHours {
+.angular-reservation-noAvailableHours {
     margin: 2em 2em;
     display: block;
     text-align: center;
 }
 
-.clientForm {
+.angular-reservation-clientForm {
     margin-top: 2em;
     margin-bottom: 2em;
 }
