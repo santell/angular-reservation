@@ -3,7 +3,7 @@
   "description": "AngularJS module for time reservation management. It can be use to reserve a citation on any kind of service provided in time slots",
   "main": [
     "dist/angular-reservation.js",
-    "dist/angular-reservation.css"
+    "dist/angular-reservation.min.css"
   ],
   "dependencies": {
     "angular": ">=1.3.0",
